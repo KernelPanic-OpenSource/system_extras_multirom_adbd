@@ -48,6 +48,8 @@
 
 #include "mdns.h"
 
+#define DONT_DROP_ROOT 1
+
 static const char* root_seclabel = nullptr;
 
 static bool should_drop_capabilities_bounding_set() {
@@ -90,6 +92,8 @@ static bool should_drop_privileges() {
     }
 
     return drop;
+#elif DONT_DROP_ROOT
+    return false;
 #else
     return true; // "adb root" not allowed, always drop privileges.
 #endif // ALLOW_ADBD_ROOT
